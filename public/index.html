@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <!-- MATERIAL DESIGN LIFE (https://getmdl.io/started/index.html) -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+
+    	<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+        
+        <!-- PERSONAL SCRIPTS -->
+        <link rel="stylesheet" type="text/css" href="main.css">
+        <title>JE SUIS UN PIRATE</title>
+    </head>
+
+    <body>
+    	<div class="main-container">
+            <div class="row col s12">
+                <div class="input-field col s9">
+                    <input id="url" type="text" class="validate" value="https://ww1.zone-telechargement1.com/exclus/30314-the-walking-dead-saison-8-vostfr-hdtv-streaming-gratuit.html">
+                    <label for="url">URL Zone Telechargement</label>
+                </div>
+                <div class="input-field col s3">
+                    <button id="go" class="btn waves-effect waves-light">
+                        Récupérer les liens
+                        <i class="material-icons right">send</i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="row col s12">
+                <div class="row">
+                    <div class="input-field col s12">
+                        <textarea id="results_text_area" class="materialize-textarea"></textarea>
+                        <label for="results_text_area">Liens directs de téléchargement</label>
+                    </div>
+                </div>
+            </div>
+    	</div>
+    </body>
+
+    <footer>
+    	<!-- JQUERY (dependency, must be before the others) -->
+    	<!-- MATERIAL DESIGN LIFE (https://getmdl.io/started/index.html) -->
+    	<!-- <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script> -->
+    	<!-- PERSONAL SCRIPTS -->
+    	<script type="text/javascript" src="main.js"></script>
+    </footer>
+</html>

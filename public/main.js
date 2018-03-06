@@ -4,7 +4,7 @@ $( document ).ready(function() {
     $("#go").click(function() {
         console.log("Click on #go button with following URL: " + $('#url').val());
 
-	var url = 'http://192.168.0.3:3000/?url=' + $('#url').val();
+	var url = 'http://ip.azno.fr:3000/?url=' + $('#url').val();
 
 	$('#results_text_are').val('');
 

@@ -1,8 +1,6 @@
 "use strict";
 const express = require('express');
-const router = express.Router();
 const app = express();
-const http = require('http');
 
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
@@ -25,22 +23,22 @@ class Router {
         var that = this;
 
         return new Promise(function(resolve, reject) {
-            http.createServer(app).listen(3000, '192.168.0.3', () => {
-                resolve();
-            });
-    
-            that.defineRoute();
-            app.use("", router);
+	    that.defineRoute();
+
+   	    app.listen(3000, () => {
+		console.log("Listener on port 3000");
+	    	resolve();
+	    });
         });
     }
 
     defineRoute() {
-	router.get('/ping', (req, res) => {
+	app.get('/ping', (req, res) => {
 		console.log("/ping");
 		res.send({code: 200});
 	});
 
-        router.get('/', (req, res) => {
+        app.get('/', (req, res) => {
             console.log("Get links for : " + req.query.url);
             this.zoneTelechargementParser.getDlProtectLinks(req.query.url, req.query.host).then(links => {
                 console.log(links);

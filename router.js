@@ -25,7 +25,7 @@ class Router {
         var that = this;
 
         return new Promise(function(resolve, reject) {
-            http.createServer(app).listen(3000, () => {
+            http.createServer(app).listen(3000, '192.168.0.3', () => {
                 resolve();
             });
     
@@ -35,6 +35,11 @@ class Router {
     }
 
     defineRoute() {
+	router.get('/ping', (req, res) => {
+		console.log("/ping");
+		res.send({code: 200});
+	});
+
         router.get('/', (req, res) => {
             console.log("Get links for : " + req.query.url);
             this.zoneTelechargementParser.getDlProtectLinks(req.query.url, req.query.host).then(links => {

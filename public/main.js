@@ -1,9 +1,12 @@
+
+
 $( document ).ready(function() {
     $("#go").click(function() {
         console.log("Click on #go button with following URL: " + $('#url').val());
-        var url = 'http://localhost:3000/?url=' + $('#url').val();
 
-        $('#results_text_are').val('');
+	var url = 'http://192.168.0.3:3000/?url=' + $('#url').val();
+
+	$('#results_text_are').val('');
 
         $.get(url, function(json) {
             console.log(json);

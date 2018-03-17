@@ -1,0 +1,20 @@
+{
+	"name": "ZT extension",
+	"description": "This extension should do something amazing.",
+	"version": "1.0",
+	"manifest_version": 2,
+	"permissions": [
+		"storage",
+		"tabs"
+	],
+	"background": {
+		"scripts": ["background.js"]
+	},
+	"content_scripts": [{
+		"matches": ["https://ww1.zone-telechargement1.com/*"],
+		"js": ["jquery-3.3.1.min.js", "mon_truc.js"]
+	}, {
+		"matches": ["https://www.dl-protect1.com/*"],
+		"js": ["jquery-3.3.1.min.js", "dl_protect.js"]
+	}]
+}

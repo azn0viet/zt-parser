@@ -7,12 +7,9 @@
 		"storage",
 		"tabs"
 	],
-	"background": {
-		"scripts": ["background.js"]
-	},
 	"content_scripts": [{
 		"matches": ["https://ww1.zone-telechargement1.com/*"],
-		"js": ["jquery-3.3.1.min.js", "mon_truc.js"]
+		"js": ["jquery-3.3.1.min.js", "zt_page.js"]
 	}, {
 		"matches": ["https://www.dl-protect1.com/*"],
 		"js": ["jquery-3.3.1.min.js", "dl_protect.js"]

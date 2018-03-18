@@ -51,6 +51,7 @@ if (pinfo.length > 0) {
 		var dlProtectUrl = $(this).find('a').attr('href');
 		
 		if (dlProtectUrl) {
+			dlProtectUrl = dlProtectUrl.replace(/\s/g, '');
 			var hostUrl = getHostUrl(host, dlProtectUrl);
 			
 			if (hostUrl) {

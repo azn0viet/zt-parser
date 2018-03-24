@@ -1,7 +1,7 @@
 var pinfo = $('.postinfo');
 
 if (pinfo.length > 0) {
-	
+
 	var dlProtectBaseUrl = "https://www.dl-protect1.com/";
 	var hosts = {
 		"Uptobox": {
@@ -18,8 +18,7 @@ if (pinfo.length > 0) {
 		},
 		"Nitroflare": {
 			baseUrl: "http://nitroflare.com/view/",
-			identifiant: "123455600123455608123455610123455615view123455615",
-			disabled: true
+			identifiant: "123455600123455608123455610123455615view123455615"
 		},
 		"Turbobit": {
 			baseUrl: "http://turbobit.net/",
@@ -27,49 +26,65 @@ if (pinfo.length > 0) {
 		},
 		"Rapidgator": {
 			baseUrl: "http://rapidgator.net/file/",
-			identifiant: "123455600123455606123455611123455615file123455615",
-			disabled: true
+			identifiant: "123455600123455606123455611123455615file123455615"
 		}
 	};
-	
-	var episodes = {};
-	var bchildren = $(pinfo[0]).find("b");
-	var host = "default";
-	
-	bchildren.each(function(index) {
-		var divHost = $(this).find('div');
-		var title = divHost.text();
-		if (title) {
-			divHost.css('cursor', 'pointer');
-			divHost.click(function() {
-				// Open a textarea with all links for this host
-			});
-			host = title;
-			episodes[host] = [];
-		}
+
+	chrome.storage.sync.get({
+		Uptobox: true,
+		Uploaded: true,
+		Turbobit: true,
+		Nitroflare: false,
+		"1fichier": true,
+		Rapidgator: false
+	}, function(items) {
+
+		hosts['Uptobox'].enabled = items['Uptobox'];
+		hosts['Uploaded'].enabled = items['Uploaded'];
+		hosts['Turbobit'].enabled = items['Turbobit'];
+		hosts['Nitroflare'].enabled = items['Nitroflare'];
+		hosts['1fichier'].enabled = items['1fichier'];
+		hosts['Rapidgator'].enabled = items['Rapidgator'];
+
+		var episodes = {};
+		var bchildren = $(pinfo[0]).find("b");
+		var host = "default";
 		
-		var dlProtectUrl = $(this).find('a').attr('href');
-		
-		if (dlProtectUrl) {
-			dlProtectUrl = dlProtectUrl.replace(/\s/g, '');
-			var hostUrl = getHostUrl(host, dlProtectUrl);
-			
-			if (hostUrl) {
-				$(this).append(' ---> ');
-				var hostHyperlink = $('<a target="_blank" href=' + hostUrl + '>' + hostUrl + '</a>');
-				hostHyperlink.css('cursor', 'pointer');
-				$(this).append(hostHyperlink);
+		bchildren.each(function(index) {
+			var divHost = $(this).find('div');
+			var title = divHost.text();
+			if (title) {
+				divHost.css('cursor', 'pointer');
+				divHost.click(function() {
+					// Open a textarea with all links for this host
+				});
+				host = title;
+				episodes[host] = [];
 			}
 			
-			//episodes[host].push(dlProtectUrl);
-		}
+			var dlProtectUrl = $(this).find('a').attr('href');
+			
+			if (dlProtectUrl) {
+				dlProtectUrl = dlProtectUrl.replace(/\s/g, '');
+				var hostUrl = getHostUrl(host, dlProtectUrl);
+				
+				if (hostUrl) {
+					$(this).append(' ---> ');
+					var hostHyperlink = $('<a target="_blank" href=' + hostUrl + '>' + hostUrl + '</a>');
+					hostHyperlink.css('cursor', 'pointer');
+					$(this).append(hostHyperlink);
+				}
+				
+				//episodes[host].push(dlProtectUrl);
+			}
+		});
 	});
 }
 
 function getHostUrl(host, dlProtectUrl) {
 	var hostObject = hosts[host];
 	
-	if (hostObject && !hostObject.disabled) {
+	if (hostObject && hostObject.enabled) {
 		if (host === "Rapidgator") { // Particular
 			var res = dlProtectUrl.replace(dlProtectBaseUrl + hostObject.identifiant, hostObject.baseUrl);
 			return res.replace('123455615', '/');

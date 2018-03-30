@@ -84,7 +84,7 @@ if (pinfo.length > 0) {
 					var textarea = $(this).next();
 					var theHost = textarea.attr('id').replace('textarea', "");
 					var rowsNumber = Math.min(episodes[theHost].length, 15);
-					
+
 					if (textarea.css('display') === "none") {
 						textarea.css('display', 'block');
 						textarea.attr('rows', rowsNumber);
@@ -128,14 +128,20 @@ if (pinfo.length > 0) {
 function getHostUrl(host, dlProtectUrl) {
 	var hostObject = hosts[host];
 	
-	if (hostObject && hostObject.enabled) {
-		if (host === "Rapidgator") { // Particular
-			var res = dlProtectUrl.replace(dlProtectBaseUrl + hostObject.identifiant, hostObject.baseUrl);
-			return res.replace('123455615', '/');
-		} else {
-			return dlProtectUrl.replace(dlProtectBaseUrl + hostObject.identifiant, hostObject.baseUrl);
-		}
+	if (!hostObject)
+		return;
+
+	if (!hostObject.enabled)
+		return;
+
+	if (dlProtectUrl.indexOf(dlProtectBaseUrl + hostObject.identifiant) === -1)
+		return;
+
+	if (host === "Rapidgator") { // Particular
+		var res = dlProtectUrl.replace(dlProtectBaseUrl + hostObject.identifiant, hostObject.baseUrl);
+		return res.replace('123455615', '/');
+	} else {
+		if (dlProtectUrl)
+		return dlProtectUrl.replace(dlProtectBaseUrl + hostObject.identifiant, hostObject.baseUrl);
 	}
-	
-	return null;
 }

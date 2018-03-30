@@ -29,9 +29,9 @@ function save_options() {
 function restore_options() {
   // Use default value color = 'red' and likesColor = true.
   chrome.storage.sync.get({
-    Uptobox: true,
+    Uptobox: false,
     Uploaded: true,
-    Turbobit: true,
+    Turbobit: false,
     Nitroflare: false,
     "1fichier": true,
     Rapidgator: false

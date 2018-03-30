@@ -73,17 +73,24 @@ if (pinfo.length > 0) {
 				divHost.css('cursor', 'pointer');
 				divHost.text(host + ' (Afficher tous les liens)');
 
-				// Add textarea with all links
-				var textarea = $('<textarea id="textarea' + host + '" style="display: none; width: 80%" rows="12"></textarea>');
+				// Add the textarea object which will contain all links
+				var textarea = $('<textarea id="textarea' + host + '" rows="15"></textarea>');
+				textarea.css('display', "none");
+				textarea.css('width', "50%");
+				textarea.css('padding', "5px");
 				divHost.parent().append(textarea);
 
 				divHost.click(function() {
 					var textarea = $(this).next();
-					if (textarea.attr('style').indexOf("none") !== -1) {
-						textarea.attr("style", "display: block; width: 80%");
+					var theHost = textarea.attr('id').replace('textarea', "");
+					var rowsNumber = Math.min(episodes[theHost].length, 15);
+					
+					if (textarea.css('display') === "none") {
+						textarea.css('display', 'block');
+						textarea.attr('rows', rowsNumber);
 						$(this).text($(this).text().replace("Afficher", "Masquer"));
 					} else {
-						textarea.attr("style", "display: none; width: 80%");
+						textarea.css('display', 'none');
 						$(this).text($(this).text().replace("Masquer", "Afficher"));
 					}
 				});

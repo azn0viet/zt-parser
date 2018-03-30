@@ -49,33 +49,70 @@ if (pinfo.length > 0) {
 		var episodes = {};
 		var bchildren = $(pinfo[0]).find("b");
 		var host = "default";
-		
+		var stopEach = false;
+
 		bchildren.each(function(index) {
+			if (stopEach)
+				return true;
+
 			var divHost = $(this).find('div');
 			var title = divHost.text();
+
 			if (title) {
-				divHost.css('cursor', 'pointer');
-				divHost.click(function() {
-					// Open a textarea with all links for this host
-				});
 				host = title;
-				episodes[host] = [];
-			}
-			
-			var dlProtectUrl = $(this).find('a').attr('href');
-			
-			if (dlProtectUrl) {
-				dlProtectUrl = dlProtectUrl.replace(/\s/g, '');
-				var hostUrl = getHostUrl(host, dlProtectUrl);
-				
-				if (hostUrl) {
-					$(this).append(' ---> ');
-					var hostHyperlink = $('<a target="_blank" href=' + hostUrl + '>' + hostUrl + '</a>');
-					hostHyperlink.css('cursor', 'pointer');
-					$(this).append(hostHyperlink);
+
+				if (!hosts[host].enabled)
+					return;
+
+				if (episodes[host]) {
+					stopEach = true;
+					return true;
 				}
-				
-				//episodes[host].push(dlProtectUrl);
+
+				episodes[host] = [];
+				divHost.css('cursor', 'pointer');
+				divHost.text(host + ' (Afficher tous les liens)');
+
+				// Add textarea with all links
+				var textarea = $('<textarea id="textarea' + host + '" style="display: none; width: 80%" rows="12"></textarea>');
+				divHost.parent().append(textarea);
+
+				divHost.click(function() {
+					var textarea = $(this).next();
+					if (textarea.attr('style').indexOf("none") !== -1) {
+						textarea.attr("style", "display: block; width: 80%");
+						$(this).text($(this).text().replace("Afficher", "Masquer"));
+					} else {
+						textarea.attr("style", "display: none; width: 80%");
+						$(this).text($(this).text().replace("Masquer", "Afficher"));
+					}
+				});
+			} else if (episodes[host]) {
+				var dlProtectUrl = $(this).find('a').attr('href');
+		
+				if (dlProtectUrl) {
+					dlProtectUrl = dlProtectUrl.replace(/\s/g, '');
+					var hostUrl = getHostUrl(host, dlProtectUrl);
+					
+					if (hostUrl) {
+						// Append the link next to the original URL
+						$(this).append(' ---> ');
+						var hostHyperlink = $('<a target="_blank" href=' + hostUrl + '>' + hostUrl + '</a>');
+						hostHyperlink.css('cursor', 'pointer');
+						$(this).append(hostHyperlink);
+
+						// Update the array
+						episodes[host].push(hostUrl);
+
+						// Update the text area
+						var textarea = $('#textarea' + host);
+						if (textarea.val() !== "") {
+							textarea.val(textarea.val() + "\n" + hostUrl);
+						} else {
+							textarea.val(hostUrl);
+						}
+					}
+				}
 			}
 		});
 	});

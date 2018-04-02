@@ -31,11 +31,11 @@ if (pinfo.length > 0) {
 	};
 
 	chrome.storage.sync.get({
-		Uptobox: true,
+		Uptobox: false,
 		Uploaded: true,
-		Turbobit: true,
+		Turbobit: false,
 		Nitroflare: false,
-		"1fichier": true,
+		"1fichier": false,
 		Rapidgator: false
 	}, function(items) {
 

@@ -33,7 +33,7 @@ function restore_options() {
     Uploaded: true,
     Turbobit: false,
     Nitroflare: false,
-    "1fichier": true,
+    "1fichier": false,
     Rapidgator: false
   }, function(items) {
     document.getElementById('uptobox').checked = items.Uptobox;

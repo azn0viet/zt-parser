@@ -25,8 +25,9 @@ if (pinfo.length > 0) {
 			identifiant: "123455600123455607123455611123455615"
 		},
 		"Rapidgator": {
-			baseUrl: "http://rapidgator.net/file/",
-			identifiant: "123455600123455606123455611123455615file123455615"
+			baseUrl: "https://rapidgator.net/file/",
+			identifiant: "123455601123455606123455611123455615file123455615",
+			identifiant2: "123455600123455606123455611123455615file123455615"
 		}
 	};
 
@@ -71,11 +72,11 @@ if (pinfo.length > 0) {
 
 				episodes[host] = [];
 				divHost.css('cursor', 'pointer');
-				divHost.text(host + ' (Afficher tous les liens)');
+				divHost.text(host + ' (Masquer tous les liens)');
 
 				// Add the textarea object which will contain all links
-				var textarea = $('<textarea id="textarea' + host + '" rows="15"></textarea>');
-				textarea.css('display', "none");
+				var textarea = $('<textarea id="textarea' + host + '" rows="0"></textarea>');
+				textarea.css('display', "block");
 				textarea.css('width', "50%");
 				textarea.css('padding', "5px");
 				divHost.parent().append(textarea);
@@ -83,11 +84,9 @@ if (pinfo.length > 0) {
 				divHost.click(function() {
 					var textarea = $(this).next();
 					var theHost = textarea.attr('id').replace('textarea', "");
-					var rowsNumber = Math.min(episodes[theHost].length, 15);
 
 					if (textarea.css('display') === "none") {
 						textarea.css('display', 'block');
-						textarea.attr('rows', rowsNumber);
 						$(this).text($(this).text().replace("Afficher", "Masquer"));
 					} else {
 						textarea.css('display', 'none');
@@ -103,10 +102,10 @@ if (pinfo.length > 0) {
 					
 					if (hostUrl) {
 						// Append the link next to the original URL
-						$(this).append(' ---> ');
-						var hostHyperlink = $('<a target="_blank" href=' + hostUrl + '>' + hostUrl + '</a>');
-						hostHyperlink.css('cursor', 'pointer');
-						$(this).append(hostHyperlink);
+						// $(this).append(' ---> ');
+						// var hostHyperlink = $('<a target="_blank" href=' + hostUrl + '>' + hostUrl + '</a>');
+						// hostHyperlink.css('cursor', 'pointer');
+						// $(this).append(hostHyperlink);
 
 						// Update the array
 						episodes[host].push(hostUrl);
@@ -118,6 +117,7 @@ if (pinfo.length > 0) {
 						} else {
 							textarea.val(hostUrl);
 						}
+						resizeTextarea(textarea, episodes[host].length);
 					}
 				}
 			}
@@ -134,14 +134,40 @@ function getHostUrl(host, dlProtectUrl) {
 	if (!hostObject.enabled)
 		return;
 
-	if (dlProtectUrl.indexOf(dlProtectBaseUrl + hostObject.identifiant) === -1)
+	if (!dlProtectUrl)
 		return;
 
-	if (host === "Rapidgator") { // Particular
-		var res = dlProtectUrl.replace(dlProtectBaseUrl + hostObject.identifiant, hostObject.baseUrl);
-		return res.replace('123455615', '/');
-	} else {
-		if (dlProtectUrl)
-		return dlProtectUrl.replace(dlProtectBaseUrl + hostObject.identifiant, hostObject.baseUrl);
+	if (dlProtectUrl.indexOf(dlProtectBaseUrl + hostObject.identifiant) === -1) {
+		if (hostObject.identifiant2 && dlProtectUrl.indexOf(dlProtectBaseUrl + hostObject.identifiant2) === -1)
+			return;
 	}
+
+	var res = dlProtectUrl.replace(dlProtectBaseUrl + hostObject.identifiant, hostObject.baseUrl);
+
+	if (host === "Rapidgator") { // Particular
+		if (res.indexOf(dlProtectBaseUrl + hostObject.identifiant2) !== -1) {
+			res = dlProtectUrl.replace(dlProtectBaseUrl + hostObject.identifiant2, hostObject.baseUrl);
+			res = res.replace('https', 'http');
+		}
+		res = res.replace('123455615', '');
+		res = res.replace('123455610', '.com');
+		res = insert(res, '/', hostObject.baseUrl.length + 32);
+	}
+
+	return res;
+}
+
+function resizeTextarea(textarea, maxLength) {
+	var rowsNumber = Math.min(maxLength, 15);
+	textarea.attr('rows', rowsNumber);
+}
+
+function insert(main_string, ins_string, pos) {
+	if(typeof(pos) == "undefined")
+		pos = 0;
+
+	if(typeof(ins_string) == "undefined")
+		ins_string = '';
+
+	return main_string.slice(0, pos) + ins_string + main_string.slice(pos);
 }

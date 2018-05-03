@@ -101,12 +101,6 @@ if (pinfo.length > 0) {
 					var hostUrl = getHostUrl(host, dlProtectUrl);
 					
 					if (hostUrl) {
-						// Append the link next to the original URL
-						// $(this).append(' ---> ');
-						// var hostHyperlink = $('<a target="_blank" href=' + hostUrl + '>' + hostUrl + '</a>');
-						// hostHyperlink.css('cursor', 'pointer');
-						// $(this).append(hostHyperlink);
-
 						// Update the array
 						episodes[host].push(hostUrl);
 

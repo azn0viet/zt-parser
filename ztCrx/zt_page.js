@@ -94,26 +94,30 @@ if (pinfo.length > 0) {
 					}
 				});
 			} else if (episodes[host]) {
-				var dlProtectUrl = $(this).find('a').attr('href');
-		
-				if (dlProtectUrl) {
-					dlProtectUrl = dlProtectUrl.replace(/\s/g, '');
-					var hostUrl = getHostUrl(host, dlProtectUrl);
-					
-					if (hostUrl) {
-						// Update the array
-						episodes[host].push(hostUrl);
+				var aObjects = $(this).find('a');
 
-						// Update the text area
-						var textarea = $('#textarea' + host);
-						if (textarea.val() !== "") {
-							textarea.val(textarea.val() + "\n" + hostUrl);
-						} else {
-							textarea.val(hostUrl);
+				aObjects.each(function(index) {
+					var dlProtectUrl = $(this).attr('href');
+
+					if (dlProtectUrl) {
+						dlProtectUrl = dlProtectUrl.replace(/\s/g, '');
+						var hostUrl = getHostUrl(host, dlProtectUrl);
+						
+						if (hostUrl) {
+							// Update the array
+							episodes[host].push(hostUrl);
+	
+							// Update the text area
+							var textarea = $('#textarea' + host);
+							if (textarea.val() !== "") {
+								textarea.val(textarea.val() + "\n" + hostUrl);
+							} else {
+								textarea.val(hostUrl);
+							}
+							resizeTextarea(textarea, episodes[host].length);
 						}
-						resizeTextarea(textarea, episodes[host].length);
 					}
-				}
+				});	
 			}
 		});
 	});
